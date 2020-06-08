@@ -1,0 +1,12 @@
+#ifndef LIBRARAY_VCF_GLOBAL_H
+#define LIBRARAY_VCF_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#if defined(LIBRARAY_VCF_LIBRARY)
+#  define LIBRARAY_VCF_EXPORT Q_DECL_EXPORT
+#else
+#  define LIBRARAY_VCF_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // LIBRARAY_VCF_GLOBAL_H

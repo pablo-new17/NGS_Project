@@ -1,10 +1,13 @@
+#include <QDebug>
 #include <QFile>
+#include <QFileInfo>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
 
 #include "Variant_Call_Format.h"
 #include "Variant_Call_FormatPrivate.h"
+#include "Database_VCF.h"
 
 QString VO_Record::toJSON(QString Field_Index_Numbers)
 {
@@ -94,7 +97,23 @@ Variant_Call_Format::Variant_Call_Format(const QString& Filename, QObject* paren
 {
 	Q_D(Variant_Call_Format);
 
-	d->m_Device = new QFile(Filename);
+	QFileInfo* info = new QFileInfo(Filename);
+
+	if(info->exists())
+	{
+		d->m_Device = new QFile(Filename);
+		QString Path = info->path();
+		QString file = info->fileName().append(".db");
+
+		info = new QFileInfo(Path+"/"+file);
+		if(!info->exists())
+		{
+			qDebug() << Path << file;
+
+			d->m_Database = new Database_VCF(file, Path, this);
+			d->m_Database->Create_Table();
+		}
+	}
 }
 
 Variant_Call_Format::Variant_Call_Format(QIODevice* Device, QObject* parent)
@@ -141,6 +160,31 @@ QString Variant_Call_Format::reference()
 	return d->m_Headers.value("reference");
 }
 
+QHash<QString, VO_Field> Variant_Call_Format::Infos()
+{
+	Q_D(Variant_Call_Format);
+
+	d->Parse_Metadata("INFO");
+
+	return d->m_Infos;
+}
+QHash<QString, VO_Field> Variant_Call_Format::Filters()
+{
+	Q_D(Variant_Call_Format);
+
+	d->Parse_Metadata("FILTER");
+
+	return d->m_Filters;
+}
+QHash<QString, VO_Field> Variant_Call_Format::Formats()
+{
+	Q_D(Variant_Call_Format);
+
+	d->Parse_Metadata("FORMAT");
+
+	return d->m_Formats;
+}
+
 
 bool Variant_Call_Format::Open()
 {
@@ -156,6 +200,8 @@ bool Variant_Call_Format::Next()
 	if (d->m_Stream.atEnd())	return false;
 
 	this->m_Current_Record = d->Read_Record();
+
+	qDebug() << d->m_Current_Position;
 
 	return (this->m_Current_Record != nullptr);
 }

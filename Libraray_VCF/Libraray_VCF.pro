@@ -1,4 +1,5 @@
 QT -= gui
+QT += sql
 
 TEMPLATE = lib
 DEFINES += LIBRARAY_VCF_LIBRARY
@@ -17,13 +18,17 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+        DB_Schema.cpp \
+        Database_VCF.cpp \
         Variant_Call_Format.cpp \
         Variant_Call_FormatPrivate.cpp
 
 HEADERS += \
-    Libraray_VCF_global.h \
-    Variant_Call_Format.h \
-    Variant_Call_FormatPrivate.h
+	DB_Schema.h \
+	Database_VCF.h \
+	Libraray_VCF_global.h \
+	Variant_Call_Format.h \
+	Variant_Call_FormatPrivate.h
 
 # Default rules for deployment.
 unix {

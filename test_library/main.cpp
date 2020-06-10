@@ -40,6 +40,10 @@ int main(int argc, char *argv[])
 		qDebug() << reader.fileDate();
 		qDebug() << reader.reference();
 
+		reader.Infos();
+		reader.Filters();
+		reader.Formats();
+
 		while (reader.Next())
 		{
 			if(Field_Number.isEmpty())

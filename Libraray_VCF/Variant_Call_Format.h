@@ -18,7 +18,7 @@ public:
 	QString Type;		// required: Integer, Float, Flag, Character, and String
 	QString Description;	// required
 	QString Source;		// recommended
-	QString version;	// recommended
+	QString Version;	// recommended
 	QString Others;		// for extention
 };
 
@@ -63,6 +63,10 @@ public:
 	QString fileformat();
 	QString fileDate();
 	QString reference();
+
+	QHash<QString, VO_Field> Infos();
+	QHash<QString, VO_Field> Filters();
+	QHash<QString, VO_Field> Formats();
 
 	VO_Record* getCurrent_Record() const;
 

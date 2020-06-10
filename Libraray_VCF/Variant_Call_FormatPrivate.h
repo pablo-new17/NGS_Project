@@ -6,6 +6,7 @@
 #include <QTextStream>
 
 #include "Variant_Call_Format.h"
+#include "Database_VCF.h"
 
 class Variant_Call_FormatPrivate : public QObject
 {
@@ -41,6 +42,10 @@ public:
 	QHash<QString, VO_Field>	m_Filters;
 	QHash<QString, VO_Field>	m_Formats;
 	QHash<QString, VO_Field>	m_Unknown;
+
+	VO_Record*			m_Current_Record;
+	qint64				m_Current_Position;
+	Database_VCF*			m_Database;
 };
 
 #endif // VARIANT_CALL_FORMATPRIVATE_H

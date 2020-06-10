@@ -44,6 +44,7 @@ int main(int argc, char *argv[])
 		reader.Filters();
 		reader.Formats();
 
+		bool aaa = true;
 		while (reader.Next())
 		{
 			if(Field_Number.isEmpty())
@@ -56,6 +57,11 @@ int main(int argc, char *argv[])
 			else
 				qDebug() << reader.getCurrent_Record()->toJSON(Field_Number);
 
+			if(aaa)
+			{
+				aaa = false;
+				reader.SetPos(1533);
+			}
 		}
 	}
 	else

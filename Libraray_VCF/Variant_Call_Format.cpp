@@ -75,9 +75,6 @@ QJsonObject VO_Record::JSON(QString Field_Index_Numbers)
 	return JSON;
 }
 
-
-
-
 VO_Record* Variant_Call_Format::getCurrent_Record() const
 {
 	return m_Current_Record;
@@ -204,5 +201,12 @@ bool Variant_Call_Format::Next()
 	qDebug() << d->m_Current_Position;
 
 	return (this->m_Current_Record != nullptr);
+}
+
+bool Variant_Call_Format::SetPos(qint64 pos)
+{
+	Q_D(Variant_Call_Format);
+
+	return  d->m_Stream.seek(pos);
 }
 

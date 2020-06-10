@@ -76,6 +76,7 @@ signals:
 public slots:
 	bool Open();
 	bool Next();
+	bool SetPos(qint64 pos);
 
 private:
 	VO_Record*	m_Current_Record;

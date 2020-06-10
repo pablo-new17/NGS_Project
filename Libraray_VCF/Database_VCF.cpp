@@ -461,8 +461,8 @@ bool Database_VCF::Open_SQLite_Database()
 	if(!this->m_Connected)
 	{
 		//資料庫尚未開啟，開啟它
-//		this->m_Database = QSqlDatabase::addDatabase("QSQLITE", this->m_Connection_String);
-		this->m_Database = QSqlDatabase::addDatabase("SQLITECIPHER", this->m_Connection_String);
+		this->m_Database = QSqlDatabase::addDatabase("QSQLITE", this->m_Connection_String);
+//		this->m_Database = QSqlDatabase::addDatabase("SQLITECIPHER", this->m_Connection_String);
 
 		if(this->m_Database.isValid()==false)
 		{

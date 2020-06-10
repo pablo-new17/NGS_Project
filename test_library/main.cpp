@@ -57,11 +57,11 @@ int main(int argc, char *argv[])
 			else
 				qDebug() << reader.getCurrent_Record()->toJSON(Field_Number);
 
-			if(aaa)
-			{
-				aaa = false;
-				reader.SetPos(1533);
-			}
+//			if(aaa)
+//			{
+//				aaa = false;
+//				reader.SetPos(1533);
+//			}
 		}
 	}
 	else

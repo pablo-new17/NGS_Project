@@ -6,7 +6,6 @@
 
 #include "Database_VCF.h"
 
-//#define DB_ENCRYPT
 
 void Database_VCF::Build_Schema()
 {
@@ -474,11 +473,6 @@ bool Database_VCF::Open_SQLite_Database()
 			return false;
 		}
 
-		//set password
-#ifdef	DB_ENCRYPT
-		this->m_Database.setPassword("tzuchi-pablo");
-		this->m_Database.setConnectOptions("QSQLITE_CREATE_KEY");
-#endif
 
 		QString	Database_Name = this->m_Database_Name;
 		if(!Database_Name.endsWith(".db"))
@@ -499,7 +493,6 @@ bool Database_VCF::Open_SQLite_Database()
 
 		if((this->m_Connected = this->m_Database.open())==false)
 		{
-			this->m_Database.setConnectOptions("QSQLITE_USE_KEY");
 			if((this->m_Connected = this->m_Database.open())==false)
 			{
 				QString Error_Message = QString(tr("無法開啟資料庫<%1>，錯誤：%2"))

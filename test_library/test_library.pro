@@ -1,4 +1,5 @@
 QT -= gui
+QT += sql
 
 CONFIG += c++11 console
 CONFIG -= app_bundle
@@ -15,7 +16,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-        main.cpp
+        main.cpp \
+        slot_test.cpp
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -28,3 +30,6 @@ else:unix: LIBS += -L$$OUT_PWD/../Libraray_VCF/ -lLibraray_VCF
 
 INCLUDEPATH += $$PWD/../Libraray_VCF
 DEPENDPATH += $$PWD/../Libraray_VCF
+
+HEADERS += \
+        slot_test.h

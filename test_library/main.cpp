@@ -1,7 +1,10 @@
 #include <QDebug>
 #include <QCoreApplication>
+#include <QFileInfo>
 
 #include "Variant_Call_Format.h"
+#include "Database_VCF.h"
+#include "slot_test.h"
 
 int main(int argc, char *argv[])
 {
@@ -33,29 +36,44 @@ int main(int argc, char *argv[])
 	}
 
 
-	Variant_Call_Format reader(Filename);
-	if (reader.Open())
+	Variant_Call_Format* reader = new Variant_Call_Format(Filename);
+	Database_VCF* DB = nullptr;
+	QFileInfo* info = new QFileInfo(Filename);
+	if(info->exists())
 	{
-		qDebug() << reader.fileformat();
-		qDebug() << reader.fileDate();
-		qDebug() << reader.reference();
+		QString Path = info->path();
+		QString file = info->fileName().append(".db");
 
-		reader.Infos();
-		reader.Filters();
-		reader.Formats();
-
-		bool aaa = true;
-		while (reader.Next())
+		info = new QFileInfo(Path+"/"+file);
+		if(!info->exists())
 		{
-			if(Field_Number.isEmpty())
-				qDebug() << reader.getCurrent_Record()->CHROM
-					 << reader.getCurrent_Record()->POS
-					 << reader.getCurrent_Record()->ID
-					 << reader.getCurrent_Record()->REF
-					 << reader.getCurrent_Record()->ALT
-					 << reader.getCurrent_Record()->QUAL ;
-			else
-				qDebug() << reader.getCurrent_Record()->toJSON(Field_Number);
+			DB = new Database_VCF(file, Path);
+		}
+	}
+	slot_test* msg = new slot_test(reader, DB);
+
+	if (reader->Open())
+	{
+		while (reader->Head())
+		{
+
+		}
+		qDebug() << reader->fileformat();
+		qDebug() << reader->fileDate();
+		qDebug() << reader->reference();
+
+//		bool aaa = true;
+		while (reader->Next())
+		{
+//			if(Field_Number.isEmpty())
+//				qDebug() << reader->getCurrent_Record()->CHROM
+//					 << reader->getCurrent_Record()->POS
+//					 << reader->getCurrent_Record()->ID
+//					 << reader->getCurrent_Record()->REF
+//					 << reader->getCurrent_Record()->ALT
+//					 << reader->getCurrent_Record()->QUAL ;
+//			else
+//				qDebug() << reader->getCurrent_Record()->toJSON(Field_Number);
 
 //			if(aaa)
 //			{

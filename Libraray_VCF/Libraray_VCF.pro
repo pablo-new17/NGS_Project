@@ -19,13 +19,19 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         DB_Schema.cpp \
+        Database_GTF.cpp \
+        Database_GTFPrivate.cpp \
         Database_VCF.cpp \
+        Database_VCFPrivate.cpp \
         Variant_Call_Format.cpp \
         Variant_Call_FormatPrivate.cpp
 
 HEADERS += \
 	DB_Schema.h \
+	Database_GTF.h \
+	Database_GTFPrivate.h \
 	Database_VCF.h \
+	Database_VCFPrivate.h \
 	Libraray_VCF_global.h \
 	Variant_Call_Format.h \
 	Variant_Call_FormatPrivate.h

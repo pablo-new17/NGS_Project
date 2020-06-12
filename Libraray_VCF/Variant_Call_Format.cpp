@@ -75,48 +75,31 @@ QJsonObject VO_Record::JSON(QString Field_Index_Numbers)
 	return JSON;
 }
 
-VO_Record* Variant_Call_Format::getCurrent_Record() const
+VO_Record* Variant_Call_Format::getCurrent_Record()
 {
-	return m_Current_Record;
+	Q_D(Variant_Call_Format);
+
+	return d->m_Last_Record;
 }
 
 Variant_Call_Format::Variant_Call_Format(QObject *parent)
 	: QObject(parent)
 	, m_Private(new Variant_Call_FormatPrivate(this))
-	, m_Current_Record(nullptr)
 {
 }
 
 Variant_Call_Format::Variant_Call_Format(const QString& Filename, QObject* parent)
 	: QObject(parent)
 	, m_Private(new Variant_Call_FormatPrivate(this))
-	, m_Current_Record(nullptr)
 {
 	Q_D(Variant_Call_Format);
 
-	QFileInfo* info = new QFileInfo(Filename);
-
-	if(info->exists())
-	{
-		d->m_Device = new QFile(Filename);
-		QString Path = info->path();
-		QString file = info->fileName().append(".db");
-
-		info = new QFileInfo(Path+"/"+file);
-		if(!info->exists())
-		{
-			qDebug() << Path << file;
-
-			d->m_Database = new Database_VCF(file, Path, this);
-			d->m_Database->Create_Table();
-		}
-	}
+	d->m_Device = new QFile(Filename);
 }
 
 Variant_Call_Format::Variant_Call_Format(QIODevice* Device, QObject* parent)
 	: QObject(parent)
 	, m_Private(new Variant_Call_FormatPrivate(this))
-	, m_Current_Record(nullptr)
 {
 	Q_D(Variant_Call_Format);
 
@@ -133,51 +116,45 @@ QString Variant_Call_Format::fileformat()
 {
 	Q_D(Variant_Call_Format);
 
-	if(!d->m_Headers.contains("fileformat"))
-		d->Parse_Metadata("fileformat");
+	if(d->m_Headers.contains("fileformat"))
+		return d->m_Headers.value("fileformat");
 
-	return d->m_Headers.value("fileformat");
+	return "";
 }
 QString Variant_Call_Format::fileDate()
 {
 	Q_D(Variant_Call_Format);
 
-	if(!d->m_Headers.contains("fileDate"))
-		d->Parse_Metadata("fileDate");
+	if(d->m_Headers.contains("fileDate"))
+		return d->m_Headers.value("fileDate");
 
-	return d->m_Headers.value("fileDate");
+	return "";
 }
 QString Variant_Call_Format::reference()
 {
 	Q_D(Variant_Call_Format);
 
-	if(!d->m_Headers.contains("reference"))
-		d->Parse_Metadata("reference");
+	if(d->m_Headers.contains("reference"))
+		return d->m_Headers.value("reference");
 
-	return d->m_Headers.value("reference");
+	return "";
 }
 
-QHash<QString, VO_Field> Variant_Call_Format::Infos()
+QHash<QString, VO_Field*> Variant_Call_Format::Infos()
 {
 	Q_D(Variant_Call_Format);
-
-	d->Parse_Metadata("INFO");
 
 	return d->m_Infos;
 }
-QHash<QString, VO_Field> Variant_Call_Format::Filters()
+QHash<QString, VO_Field*> Variant_Call_Format::Filters()
 {
 	Q_D(Variant_Call_Format);
-
-	d->Parse_Metadata("FILTER");
 
 	return d->m_Filters;
 }
-QHash<QString, VO_Field> Variant_Call_Format::Formats()
+QHash<QString, VO_Field*> Variant_Call_Format::Formats()
 {
 	Q_D(Variant_Call_Format);
-
-	d->Parse_Metadata("FORMAT");
 
 	return d->m_Formats;
 }
@@ -190,23 +167,33 @@ bool Variant_Call_Format::Open()
 	return d->Open();
 }
 
+bool Variant_Call_Format::Head()
+{
+	Q_D(Variant_Call_Format);
+
+	if (d->m_Stream.atEnd())	return false;
+
+	bool isRecord = (d->Read_Header() != nullptr);
+
+	return isRecord;
+}
+
 bool Variant_Call_Format::Next()
 {
 	Q_D(Variant_Call_Format);
 
 	if (d->m_Stream.atEnd())	return false;
 
-	this->m_Current_Record = d->Read_Record();
+	bool isRecord = (d->Read_Record() != nullptr);
 
-	qDebug() << d->m_Current_Position;
-
-	return (this->m_Current_Record != nullptr);
+	return isRecord;
 }
 
 bool Variant_Call_Format::SetPos(qint64 pos)
 {
 	Q_D(Variant_Call_Format);
 
+	d->m_Record_Part = true;
+
 	return  d->m_Stream.seek(pos);
 }
-

@@ -24,28 +24,24 @@ signals:
 
 public slots:
 	bool Open();
-	void Read_Header();
+	VO_Field* Read_Header();
 	VO_Record* Read_Record();
 
-	bool Parse_Metadata(QString Meta_Key);
+	VO_Field* Parse_Metadata(QString Meta_Key, QString Value);
 
 public:
 	QIODevice*			m_Device;
 	QTextStream			m_Stream;
 
-	QString				m_File_Format;
 	QStringList			m_Samples_head;
-	QMultiHash<QString, QString>	m_Meta_Datas;
-
 	QHash<QString, QString>		m_Headers;
-	QHash<QString, VO_Field>	m_Infos;
-	QHash<QString, VO_Field>	m_Filters;
-	QHash<QString, VO_Field>	m_Formats;
-	QHash<QString, VO_Field>	m_Unknown;
+	QHash<QString, VO_Field*>	m_Infos;
+	QHash<QString, VO_Field*>	m_Filters;
+	QHash<QString, VO_Field*>	m_Formats;
 
-	VO_Record*			m_Current_Record;
+	bool				m_Record_Part;
+	VO_Record*			m_Last_Record;
 	qint64				m_Current_Position;
-	Database_VCF*			m_Database;
 };
 
 #endif // VARIANT_CALL_FORMATPRIVATE_H

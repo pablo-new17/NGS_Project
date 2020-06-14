@@ -27,6 +27,7 @@ public:
 	~Database_VCF();
 
 	bool getConnected() const;
+	QSqlDatabase getDatabase() const;
 	QString getDatabase_Filename() const;
 
 	void CloseDatabase();

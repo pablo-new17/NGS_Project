@@ -2,6 +2,7 @@
 #define DATABASE_GTF_H
 
 #include <QObject>
+#include <QSqlDatabase>
 
 #include "Libraray_VCF_global.h"
 

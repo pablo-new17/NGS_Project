@@ -29,6 +29,8 @@ public:
 	QSqlDatabase	m_Database;
 	QMutex		m_Mutex_Lock;
 
+
+
 public slots:
 	// Common database function
 	bool Check_SQLite_Engine();

@@ -62,6 +62,13 @@ bool Database_VCF::getConnected() const
 	return d->m_Connected;
 }
 
+QSqlDatabase Database_VCF::getDatabase() const
+{
+	Q_D(const Database_VCF);
+
+	return d->m_Database;
+}
+
 QString Database_VCF::getDatabase_Filename() const
 {
 	Q_D(const Database_VCF);

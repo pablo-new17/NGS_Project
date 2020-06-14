@@ -27,6 +27,10 @@ private slots:
 	void on_lineEdit_Filter_textEdited(const QString &arg1);
 
 	void currentRowChanged(const QModelIndex &current, const QModelIndex &previous);
+	void on_actionExit_triggered();
+
+	void on_actionAbout_triggered();
+
 private:
 	Ui::MainWindow *ui;
 	Variant_Call_Format* m_VCF;

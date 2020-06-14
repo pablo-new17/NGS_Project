@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>VCF Viewer</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -177,7 +177,7 @@
      <string>檔案</string>
     </property>
     <addaction name="actionOpen"/>
-    <addaction name="action"/>
+    <addaction name="separator"/>
     <addaction name="actionExit"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
@@ -193,11 +193,6 @@
   <action name="actionOpen">
    <property name="text">
     <string>開啟檔案</string>
-   </property>
-  </action>
-  <action name="action">
-   <property name="text">
-    <string>-</string>
    </property>
   </action>
   <action name="actionExit">

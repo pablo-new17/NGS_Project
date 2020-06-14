@@ -1,9 +1,12 @@
 #include <QDebug>
 #include <QFileDialog>
-
+#include <QApplication>
+#include <QMessageBox>
 
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
+
+#define VERSION	"0.0.1.20200614"
 
 MainWindow::MainWindow(QWidget *parent)
 	: QMainWindow(parent)
@@ -102,9 +105,9 @@ void MainWindow::currentRowChanged(const QModelIndex& current, const QModelIndex
 			ui->lineEdit_POS->setText(QString::number(rec->POS));
 			ui->lineEdit_ID->setText(rec->ID);
 			ui->lineEdit_REF->setText(rec->REF);
-			ui->lineEdit_ALT->setText(rec->ALT.join("|"));
+			ui->lineEdit_ALT->setText(rec->ALT.join(":"));
 			ui->lineEdit_QUAL->setText(QString::number(rec->QUAL));
-			ui->lineEdit_INFO->setText(rec->INFO.keys().join("|"));
+			ui->lineEdit_INFO->setText(rec->INFO.keys().join(":"));
 			ui->lineEdit_FORMAT->setText(rec->FORMAT);
 			QVariantMap INFO;
 
@@ -120,5 +123,18 @@ void MainWindow::currentRowChanged(const QModelIndex& current, const QModelIndex
 	ui->lineEdit_QUAL->setText("0");
 	ui->lineEdit_INFO->setText("");
 	ui->lineEdit_FORMAT->setText("");
+}
 
+void MainWindow::on_actionExit_triggered()
+{
+	QApplication::quit();
+}
+
+void MainWindow::on_actionAbout_triggered()
+{
+	QString Message = QString("%1: %2").arg(tr("版本")).arg(VERSION);
+	Message.append("\n");
+	Message.append(QString("%1: %2").arg(tr("作者")).arg("Pablo(pablo.new17@gmail.com)"));
+
+	QMessageBox::about(this, tr("關於"), Message);
 }
